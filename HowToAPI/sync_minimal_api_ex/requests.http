@@ -1,0 +1,59 @@
+### Jokes API
+### Get all jokes
+GET http://localhost:5002/jokes
+### Test for id not found
+GET http://localhost:5002/jokes/1
+### Insert new joke
+POST http://localhost:5002/jokes
+Content-Type: application/json
+
+{
+    "jokeText":"This is the first joke",
+    "funLevel":4
+}
+### Test for number out of range
+POST http://localhost:5002/jokes
+Content-Type: application/json
+
+{
+    "jokeText":"This is the second joke",
+    "funLevel":34
+}
+### Insert new joke
+POST http://localhost:5002/jokes
+Content-Type: application/json
+
+{
+    "jokeText":"This is the second joke",
+    "funLevel":3
+}
+### Update joke
+PUT http://localhost:5002/jokes/1
+Content-Type: application/json
+
+{
+    "jokeText":"This is the change of first joke",
+    "funLevel":5
+}
+### Test Update joke where index does not exist
+PUT http://localhost:5002/jokes/10
+Content-Type: application/json
+
+{
+    "jokeText":"This is the change of first joke",
+    "funLevel":5
+}
+### Test Update joke where fun level is out of range
+PUT http://localhost:5002/jokes/1
+Content-Type: application/json
+
+{
+    "jokeText":"This is the change of first joke",
+    "funLevel":15
+}
+### Delete joke
+DELETE http://localhost:5002/jokes/3
+### Test Joke Deleted
+GET http://localhost:5002/jokes/3
+### Test Delete joke where id does not exist
+DELETE http://localhost:5002/jokes/3

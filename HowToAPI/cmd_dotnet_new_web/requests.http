@@ -1,0 +1,44 @@
+GET http://localhost:5028
+###
+GET http://localhost:5028/ping
+###
+GET http://localhost:5028/flip
+###
+GET http://localhost:5028/tarzan
+###
+GET http://localhost:5028/hello?name=Sam
+
+###
+GET http://localhost:5028/customers/69
+###
+POST http://localhost:5028/customers
+###
+POST http://localhost:5028/customer
+Content-Type: application/json
+
+{
+    "name":"Sam",
+    "company":"Smith",
+    "age":69
+}
+###
+GET http://localhost:5028/orders/69
+###
+GET http://localhost:5028/orders/69?options=brush
+
+###
+GET http://localhost:5028/products/01
+
+###
+GET http://localhost:5028/customers/89/orders/90/products/91
+
+
+
+###
+GET http://localhost:5028/iamhappy
+###
+GET http://localhost:5028/iamhappy2
+###
+GET http://localhost:5028/iamnothappy
+###
+POST http://localhost:5028/iamnothappybecause
