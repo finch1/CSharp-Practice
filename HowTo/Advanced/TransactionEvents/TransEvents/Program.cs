@@ -6,6 +6,8 @@ class Program
 
     static void Main(string[] args)
     {
+        System.Console.WriteLine("LISTEN FOR THINGS TO HAPPEN AND RESPOND TO THEM!");
+        
         customer = new Customer();
 
         customer.CustomerName = "Eddie";
@@ -43,14 +45,22 @@ class Program
     {
         System.Console.WriteLine("--------------------------------------------------");
         System.Console.WriteLine($"You have an overdraft protection transfer of {string.Format("{0:C2}", e.AmountOverdrafted)}");
-        e.CancelTransaction = true;
+        string stopOverdraft = Console.ReadLine();
+        if(stopOverdraft == "y")
+            e.CancelTransaction = true;
+        else
+            e.CancelTransaction = false;
               
     }
     private static void Acc2_OverDraftEventEvent(object source, OverDraftEventArgs e)
     {
         System.Console.WriteLine("--------------------------------------------------");
         System.Console.WriteLine($"You have an overdraft protection transfer of {string.Format("{0:C2}", e.AmountOverdrafted)}");
-        e.CancelTransaction = true;
+        string stopOverdraft = Console.ReadLine();
+        if(stopOverdraft == "y")
+            e.CancelTransaction = true;
+        else
+            e.CancelTransaction = false;
 
     }
 

@@ -2,7 +2,7 @@ namespace DemoLibrary;
 
 public class Account : IAccount
 {
-    // what kicks of an event. What listens to an event. 
+    // what kicks of an event. What listens to an event. Then we have the glue in between:
     public event EventHandler<string> TransactionApprovedEvent;
     public event EventHandler<OverDraftEventArgs> OverDraftEvent;
 
