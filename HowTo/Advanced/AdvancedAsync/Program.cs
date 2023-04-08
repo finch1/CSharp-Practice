@@ -24,7 +24,16 @@ class Program
 
             watch.Restart(); // Stops time interval measurement, resets the elapsed time to zero, and starts measuring elapsed time.
             System.Console.WriteLine("StartingAsync");
-            PrintResults(await DemoMethods.RunDownloadAsync(progress, cts.Token)); // if we dont await, the code will exit before finishing
+            // wrap in try-catch for the cancellation request
+            try
+            {
+                PrintResults(await DemoMethods.RunDownloadAsync(progress, cts.Token)); // if we dont await, the code will exit before finishing
+            }
+            catch(OperationCanceledException)
+            {   
+                System.Console.WriteLine("The async download operation was cancelled. ");
+            }
+            
             watch.Stop();
             System.Console.WriteLine($"Elapsed Time {watch.ElapsedMilliseconds}");
 
@@ -80,7 +89,7 @@ class Program
             return output;
         }    
 
-        public static async Task<List<WebsiteDataModel>> RunDownloadAsync(IProgress<ProgressReportModel> progress, CancellationTokenSource cancellationToken) // IProgress is a Generic Type. It is a callback to show progress to the user when it happenes.
+        public static async Task<List<WebsiteDataModel>> RunDownloadAsync(IProgress<ProgressReportModel> progress, CancellationToken cancellationToken) // IProgress is a Generic Type. It is a callback to show progress to the user when it happenes.
         {
             List<string> websites = PrepData();
             List<WebsiteDataModel> output = new List<WebsiteDataModel>();
@@ -90,7 +99,7 @@ class Program
             foreach (string website in websites)
             {            
                 WebsiteDataModel results = await DownloadWebsiteAsync(website, "Async");
-                cancellationToken.ThrowIfCancellationRequested();                
+                cancellationToken.ThrowIfCancellationRequested();   // the cancel request will throw an exception             
                 output.Add(results);
 
                 report.SitesDownloadedSoFar = output;
@@ -114,7 +123,49 @@ class Program
             var results = await Task.WhenAll(tasks);
 
             return new List<WebsiteDataModel>(results);
-        }    
+        }   
+
+        public static List<WebsiteDataModel> RunDownloadParallelSync()
+        {
+            List<string> websites = PrepData();
+            List<WebsiteDataModel> output = new List<WebsiteDataModel>();
+            
+            // for parallel foreach, specify what we are passing in <string>(the list of strings, (short version of foreach, i.e. iterate the list and get each site)=> (the action))
+            // Parallel still locks untill everything is done
+            Parallel.ForEach<string>(websites, (site) => 
+            {            
+                WebsiteDataModel model = RunDownloadSync(site);
+                output.Add(model);
+            });
+
+            return output;
+        }   
+
+        // This is best because as parallel task completes, the output becomes available. Other methods' progress is blocked by Task.WhenAll.
+        // In the below method, we should see that the smallest website is downloaded and reported first, while the largest site is downloaded last. 
+        public static async Task<List<WebsiteDataModel>> RunDownloadParallelAsyncV2(IProgress<ProgressReportModel> progress)
+        {
+            List<string> websites = PrepData();
+            List<WebsiteDataModel> output = new List<WebsiteDataModel>();
+            ProgressReportModel report = new ProgressReportModel();
+            
+            // for parallel foreach, specify what we are passing in <string>(the list of strings, (short version of foreach, i.e. iterate the list and get each site)=> (the action))
+            await Task.Run(() => {
+                // Anather advantage of Parallel is the flexibility to code callbacks to monitor progress, such as. 
+                Parallel.ForEach<string>(websites, (site) => 
+                {            
+                    WebsiteDataModel model = RunDownloadSync(site);
+                    output.Add(model);
+
+                    report.SitesDownloadedSoFar = output;
+                    report.Percentagecomplete = (output.Count()*100)/websites.Count(); // output * 100 is a trick not to have decimal
+                    progress.Report(report);
+                });
+            });
+            
+
+            return output;
+        }     
 
         public static WebsiteDataModel DownloadWebsite(string websiteURL)
         {
