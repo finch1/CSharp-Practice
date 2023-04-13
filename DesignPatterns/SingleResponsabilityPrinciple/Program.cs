@@ -17,7 +17,7 @@
 
         AccountGenerator.CreateAccount(user);  
 
-
+        StdMsg.PrintMessage(StdMsg.MsgType.EndApplication);
     }
     
 }

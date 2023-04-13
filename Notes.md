@@ -60,13 +60,14 @@ dotnet new web
 > Liskov Substitution Principle     
 > Interface Segregation Principle       
 > Dependency Inversion Principle
+> Has-A & Is-A
 
 ### SRP
 The Single Responsability Principle states that every module or class should have a SINGLE RESPONSABILITY over a single part of the functionality provided by the software, and that responsability should be entirely encapsulated by the class, module or function. All its services should be aligned with that responsability. Design components that are self contained: independent and with a single defined purpose [cohesion]. When components are isolated from one another, you know that you can change one without worrying about the rest. COHESION is a measure of the strength of association of the elements inside a module. A highly cohesive module is a collection of statements and data items that should be treated as a whole because they are so closely related. Any attempt to divide them up would only result in increased coupling and decreased readability. 
-Separate concerns to isolate and simplify change. 
+Separate concerns to isolate and simplify change. Single responsibiblity principle advices to **separate concerns to isolate and simplify change.**
 
 ### OCP
-Software artifacts (classes, modules, functions, etc..), should be open for extension or add new functionality, but closed for modification. Prefer designs that simplify extension by types or operations. 
+Software artifacts (classes, modules, functions, etc..), should be open for extension or add new functionality, but closed for modification. Prefer designs that simplify extension by types or operations. The Open Close Principle advices to prefer design that **simplifies the extension** by types of operation.
 
 ### LSP
 If for object o_1 of type S there is an object o_2, of type T such that for all programs P defined in terms of T, the behaviour of P is unchanged when o_1 is substituted to o_2 then S is a subtype of T. Subtypes must be substitutable for their base types.
