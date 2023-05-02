@@ -1,6 +1,6 @@
 namespace OCP;
 
-internal class Accounts : IAccounts
+internal class ManagerAccounts : IAccounts
 {
     public EmployeeModel Create(IApplicantModel person)
     {
@@ -8,7 +8,8 @@ internal class Accounts : IAccounts
 
             FirstName = person.FirstName,
             LastName = person.LastName,
-            Email = @$"{person.FirstName.Substring(0,1)}.{person.LastName}@persons.com"
+            Email = @$"{person.FirstName.Substring(0,1)}.{person.LastName}@managers.com",
+            IsManager = true,            
         };
     }
 }

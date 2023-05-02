@@ -52,6 +52,7 @@ CTRL + M + M (Where the cursor is)
 ## Console Commands
 dotnet new console -o Inheretance
 dotnet new web 
+dotnet new blazorwasm -o CICalc
 
 
 # Principles
@@ -77,7 +78,7 @@ Guideline: Make sure that the contract of base types is adhered to
 Guideline: Make sure to adhere to required concept
 
 ### ISP
-Clients should not be forced to depend on methods that they do not use. Many client spesific interfaces are better then one general purpose interface. 
+Clients should not be forced to depend on methods that they do not use. Many client specific interfaces are better then one general purpose interface. 
 
 ### DIP
 The most flexible systems are those in which source code dependencies refer only to abstractions, not to concretions. 
@@ -85,3 +86,5 @@ a. High-level modules should not depend on low level modules. Both should depend
 b. Abstractions should not depend on details. Details should depend on abstractions
 
 Guideline: Prefere to depend on abstractions (i.e. abstract classes or concepts instead of concrete class)
+
+High level modules should not depend on low level modules but rather both should depend on abstractions, and those abstractions should not depend on details. 
